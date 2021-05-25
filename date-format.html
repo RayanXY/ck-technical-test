@@ -6,7 +6,8 @@
     </head>
     <body>
         <script>
-            // This will create elements for testing, DO NOT change this code
+            const NOW_T = new Date();
+            // This will create elements for testing, DO NOT c<!-- let date = new Date(item.innerHTML); -->hange this code
             (() => {
                 const MS_PER_MINUTE = 60000
                 const NOW = new Date()
@@ -25,7 +26,29 @@
                     el.appendChild(dt)
                     document.body.appendChild(el)
                 })
+
+                this.parseDates();
             })();
+
+            function parseDates() {
+                let dates = document.getElementsByClassName('js-date-format');
+                let i = 0;
+
+                for(let item of dates) {
+                    let date = new Date(item.innerHTML);
+                    let minutes = Math.round((NOW_T - date) / 60000);
+
+                    if(minutes === 0) {
+                        let seconds = (NOW_T - date) / 6000;
+                        item.innerHTML = seconds + " seconds ago";
+                    } else if(minutes > 0 && minutes < 60) {
+                        item.innerHTML = minutes + " minutes ago";
+                    } else if(minutes >= 60 && minutes < 1440) {
+                        let hours = Math.round(minutes / 60);
+                        item.innerHTML = hours + " hours ago";
+                    }
+                }
+            }
         </script>
     </body>
 </html>
